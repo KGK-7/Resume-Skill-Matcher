@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Screening System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                Resume Screening
+            </a>
+            <div class="d-flex align-items-center">
+                <span class="text-muted me-3">v1.0.0</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h6 class="sidebar-title">Navigation</h6>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#upload-section">
+                        <i class="fas fa-upload me-2"></i>Submit Resume
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#candidates-section">
+                        <i class="fas fa-users me-2"></i>View Candidates
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <main class="content">
+            <div class="content-header">
+                <h1 class="content-title">Resume Screening</h1>
+                <p class="text-muted">Upload and analyze candidate resumes</p>
+            </div>
+
+            <section id="upload-section" class="content-section">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h2 class="card-title h5 mb-0">
+                            <i class="fas fa-upload me-2 text-primary"></i>Submit New Application
+                        </h2>
+                    </div>
+                    <div class="card-body">
+                        <form id="uploadForm" enctype="multipart/form-data" class="needs-validation" novalidate>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                                        <label for="name">Candidate Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                                        <label for="email">Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" id="roleSelect" name="role" required>
+                                            <option value="">Select a role</option>
+                                            <option value="frontend">Frontend Developer</option>
+                                            <option value="backend">Backend Developer</option>
+                                            <option value="fullstack">Full Stack Developer</option>
+                                            <option value="devops">DevOps Engineer</option>
+                                            <option value="data">Data Scientist</option>
+                                            <option value="custom">Other (Specify)</option>
+                                        </select>
+                                        <label for="roleSelect">Job Role</label>
+                                    </div>
+                                    <div class="form-floating mb-3" id="customRoleDiv" style="display: none;">
+                                        <input type="text" class="form-control" id="customRole" name="customRole" placeholder="Specify Role">
+                                        <label for="customRole">Specify Role</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control" id="jobDesc" name="job_desc" style="height: 150px" placeholder="Job Description" required></textarea>
+                                        <label for="jobDesc">Job Description</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="upload-area p-4 rounded border-2 border-dashed text-center mb-3">
+                                        <i class="fas fa-cloud-upload-alt fs-2 text-primary mb-2"></i>
+                                        <p class="mb-2">Drag & drop your resume or</p>
+                                        <input type="file" class="form-control" id="resume" name="resume" required hidden>
+                                        <label for="resume" class="btn btn-outline-primary">Choose File</label>
+                                        <p class="selected-file mt-2 text-muted small"></p>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary w-100 py-3">
+                                        <i class="fas fa-paper-plane me-2"></i>Submit Application
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="result-container" class="card" style="display: none;">
+                  <h2>Analysis Result</h2>
+                  <div class="result-card">
+                    <div class="candidate-info">
+                      <h3>Candidate Information</h3>
+                      <p>Name: <span id="candidate-name"></span></p>
+                      <p>Email: <span id="candidate-email"></span></p>
+                    </div>
+                    <div class="match-info">
+                      <h3>Match Results</h3>
+                      <div class="score-circle">
+                        <span id="match-score"></span>
+                      </div>
+                      <h4>Matched Skills:</h4>
+                      <div id="matched-keywords" class="skills-container"></div>
+                    </div>
+                  </div>
+                </div>
+            </section>
+
+            <section id="candidates-section" class="content-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="section-title">Candidate Database</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="roleFilter" class="form-control search-input" placeholder="Search by role...">
+                    </div>
+                </div>
+                <div id="candidates-list" class="candidates-grid">
+                    <!-- Candidates will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
