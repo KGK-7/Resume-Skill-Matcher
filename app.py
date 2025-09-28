@@ -20,7 +20,7 @@ ALLOWED_EXTENSIONS = {'pdf', 'docx'}
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-# ✅ API: Upload Resume + Match JD
+#  API: Upload Resume + Match JD
 @app.route('/upload', methods=['POST'])
 def upload_resume():
     try:
@@ -89,7 +89,7 @@ def upload_resume():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# ✅ API: Get All Candidates
+# API: Get All Candidates
 @app.route('/candidates', methods=['GET'])
 def get_candidates():
     db = get_db_connection()
