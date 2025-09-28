@@ -1,0 +1,6 @@
+flask
+flask-cors
+mysql-connector-python
+PyPDF2
+python-docx
+nltk
